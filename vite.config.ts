@@ -22,7 +22,6 @@ export default defineConfig({
       autoThemeTarget: '#app',
     }),
   ],
-  base: '/Driver-Based-Testing/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'), // ✅ 定义 @ = src
