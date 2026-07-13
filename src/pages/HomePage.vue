@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { Moon } from 'lucide-vue-next'
 
 const router = useRouter()
 const stars = ref<Array<{ id: number; left: string; top: string; size: string; delay: string }>>([])
@@ -43,9 +44,8 @@ function startTest() {
     <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
       <div class="text-center max-w-2xl">
         <div class="mb-8 animate-float">
-          <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-gold-400 to-gold-600 
-                      shadow-lg shadow-gold-500/50 flex items-center justify-center">
-            <span class="text-4xl">✨</span>
+          <div class="w-24 h-24 mx-auto flex items-center justify-center">
+            <Moon class="w-20 h-20 drop-shadow-[0_0_20px_rgba(244,208,63,0.6)]" style="fill: #f4d03f; color: #f4d03f;" />
           </div>
         </div>
 
