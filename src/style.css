@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #000000;
+  color: #e2e8f0;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.mystic-bg {
+  position: relative;
+  background-color: #000000;
+}
+
+.mystic-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(ellipse at 20% 20%, rgba(244, 208, 63, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(244, 208, 63, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(244, 208, 63, 0.02) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.gold-pattern {
+  position: relative;
+}
+
+.gold-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.6), transparent);
+}
+
+.gold-pattern::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.6), transparent);
+}
+
+.corner-decoration {
+  position: relative;
+}
+
+.corner-decoration::before,
+.corner-decoration::after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(244, 208, 63, 0.3);
+}
+
+.corner-decoration::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner-decoration::after {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+}
+
+@layer components {
+  .btn-gold {
+    @apply px-8 py-3 bg-gradient-to-r from-gold-500 to-gold-400 text-black font-bold rounded-full 
+           shadow-lg shadow-gold-500/30 hover:shadow-gold-400/50 hover:scale-105 
+           transition-all duration-300 cursor-pointer;
+  }
+
+  .btn-mystic {
+    @apply px-6 py-2 border border-gold-500/50 text-gold-400 rounded-full 
+           hover:bg-gold-500/10 hover:border-gold-400 transition-all duration-300 cursor-pointer;
+  }
+
+  .card-mystic {
+    @apply bg-transparent rounded-2xl p-6 shadow-xl;
+    border: 1px solid rgba(244, 208, 63, 0.25);
+    box-shadow: 0 0 25px rgba(244, 208, 63, 0.06), inset 0 1px 0 rgba(244, 208, 63, 0.1);
+  }
+
+  .card-gold-frame {
+    @apply bg-transparent rounded-2xl p-6 shadow-xl;
+    border: 1px solid rgba(244, 208, 63, 0.3);
+    box-shadow: 0 0 20px rgba(244, 208, 63, 0.08);
+  }
+
+  .option-btn {
+    @apply w-full text-left p-4 rounded-xl border border-gold-500/20 
+           bg-black/50 hover:bg-gold-500/10 hover:border-gold-400/50 
+           hover:shadow-lg hover:shadow-gold-500/10 transition-all duration-300 cursor-pointer;
+  }
+
+  .option-btn-multi {
+    @apply w-full text-left p-4 rounded-xl border border-gold-500/20 
+           bg-black/50 hover:bg-gold-500/10 hover:border-gold-400/50 
+           hover:shadow-lg hover:shadow-gold-500/10 transition-all duration-300 cursor-pointer;
+  }
+
+  .option-btn-multi-active {
+    @apply bg-gold-500/20 border-gold-400 shadow-lg shadow-gold-500/20;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.star {
+  position: absolute;
+  background: #f4d03f;
+  border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite;
+}
