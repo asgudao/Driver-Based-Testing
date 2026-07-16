@@ -164,7 +164,7 @@ function goHome() {
 
         <div
           v-if="currentQuestion"
-          class="card-mystic w-full corner-decoration"
+          class="card-gold-frame w-full"
           :class="{ 'opacity-0 translate-y-4': isTransitioning }"
           style="transition: all 0.3s ease-out"
         >

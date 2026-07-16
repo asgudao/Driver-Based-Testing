@@ -82,7 +82,8 @@ function drawRadar() {
   const centerX = rect.width / 2
   const centerY = rect.height / 2
   const size = Math.min(rect.width, rect.height)
-  const radius = size * 0.35
+  const isSmallScreen = rect.width < 480
+  const radius = size * (isSmallScreen ? 0.28 : 0.35)
 
   ctx.clearRect(0, 0, rect.width, rect.height)
 
@@ -122,7 +123,8 @@ function drawRadar() {
   }
 
   ctx.fillStyle = '#f4d03f'
-  ctx.font = '13px Inter, sans-serif'
+  const labelFontSize = rect.width < 480 ? '12px' : '13px'
+  ctx.font = `${labelFontSize} Inter, sans-serif`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
 
@@ -130,18 +132,23 @@ function drawRadar() {
     const angle = i * angleStep - Math.PI / 2
     const textWidth = ctx.measureText(drivers[i].name).width
     const textHeight = 20
-    const minLabelRadius = radius + Math.max(textWidth, textHeight) / 2 + 25
-    const labelRadius = Math.max(radius + 55, minLabelRadius)
+    const isSmallScreen = rect.width < 480
+    const baseMargin = isSmallScreen ? 35 : 25
+    const minLabelRadius = radius + Math.max(textWidth, textHeight) / 2 + baseMargin
+    const defaultLabelRadius = isSmallScreen ? radius + 65 : radius + 55
+    const labelRadius = Math.max(defaultLabelRadius, minLabelRadius)
     const labelX = centerX + labelRadius * Math.cos(angle)
     const labelY = centerY + labelRadius * Math.sin(angle)
 
     let adjustedX = labelX
     let adjustedY = labelY
+    const margin = 5
+    const halfW = textWidth / 2 + margin
 
-    if (labelX < 0) adjustedX = 0
-    if (labelX > rect.width) adjustedX = rect.width
-    if (labelY < 0) adjustedY = 0
-    if (labelY > rect.height) adjustedY = rect.height
+    if (labelX - halfW < 0) adjustedX = halfW
+    if (labelX + halfW > rect.width) adjustedX = rect.width - halfW
+    if (labelY - textHeight / 2 < 0) adjustedY = textHeight / 2 + margin
+    if (labelY + textHeight / 2 > rect.height) adjustedY = rect.height - textHeight / 2 - margin
 
     ctx.fillText(drivers[i].name, adjustedX, adjustedY)
   }
@@ -239,7 +246,7 @@ function goHome() {
           :class="{ 'opacity-0': !isAnimating }"
           style="transition: opacity 0.5s ease"
         >
-          <canvas ref="canvasRef" class="w-full" style="min-height: 450px; max-height: 550px;"></canvas>
+          <canvas ref="canvasRef" class="w-full" style="min-height: 480px; max-height: 550px;"></canvas>
         </div>
 
         <!-- 主要驱动 -->
@@ -291,9 +298,9 @@ function goHome() {
             <div
               v-for="driver in result.allDrivers"
               :key="driver.code"
-              class="flex items-center gap-4"
+              class="flex items-center gap-2 md:gap-3"
             >
-              <span class="w-24 text-sm text-gray-400">{{ driver.name }}</span>
+              <span class="w-14 md:w-20 text-sm text-gray-400 shrink-0">{{ driver.name }}</span>
               <div class="flex-1 h-2 bg-gray-800/50 rounded-full overflow-hidden">
                 <div
                   class="h-full rounded-full transition-all duration-700"
@@ -303,7 +310,7 @@ function goHome() {
                   }"
                 ></div>
               </div>
-              <span class="w-8 text-sm text-gray-400 text-right">{{ driver.score }}</span>
+              <span class="w-6 md:w-8 text-sm text-gray-400 text-right shrink-0">{{ driver.score }}</span>
             </div>
           </div>
         </div>

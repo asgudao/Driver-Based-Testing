@@ -83,7 +83,7 @@ export const questions: Question[] = [
   },
   {
     id: 'q1a',
-    text: '如果上一题选择了玩游戏，请问你玩游戏的原因是为了',
+    text: '请问你玩游戏的原因是为了',
     multiSelect: true,
     condition: {
       questionId: 'q1',
@@ -100,7 +100,7 @@ export const questions: Question[] = [
   },
   {
     id: 'q1b',
-    text: '如果上一题选择了看电影展览和小说，那么请问你进行这些活动是为了',
+    text: '请问你看电影展览和小说是为了',
     multiSelect: true,
     condition: {
       questionId: 'q1',
