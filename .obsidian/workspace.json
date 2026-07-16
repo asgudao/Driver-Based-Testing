@@ -31,10 +31,14 @@
             "id": "bffb96d239bcddff",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "关系图谱"
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "README"
             }
           }
         ]
@@ -200,16 +204,17 @@
       "bases:新建数据库": false
     }
   },
-  "active": "bffb96d239bcddff",
+  "active": "2509dcd13e18dabc",
   "lastOpenFiles": [
-    "未命名.md",
+    "思路/后续更改思路.md",
     "思路/个人测评网站.md",
     "思路/问题.md",
+    "README.md",
+    "未命名.md",
     "问题.md",
     "思路",
     "新建文件夹",
     "个人测评网站.md",
-    "README.md",
     "vite.config.ts.timestamp-1783503627655-881bf774eebb1.mjs",
     "dist/assets/index-BaKGzJBG.js.map",
     "dist/assets/index-BaKGzJBG.js",
@@ -238,7 +243,6 @@
     "node_modules/ajv/lib/dotjs/README.md",
     "node_modules/ajv/README.md",
     "node_modules/eslint-scope/README.md",
-    "node_modules/postcss-selector-parser/README.md",
     "src/assets/vue.svg",
     "public/favicon.svg"
   ]

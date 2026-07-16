@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "后续更改思路.md",
+                "file": "问题.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "后续更改思路"
+              "title": "问题"
             }
           }
         ]
@@ -51,8 +51,7 @@
               "title": "关系图谱"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -136,7 +135,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "个人测评网站.md",
+                "file": "copilot/copilot-custom-prompts/Make shorter.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -146,7 +145,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "个人测评网站 的反向链接列表"
+              "title": "Make shorter 的反向链接列表"
             }
           },
           {
@@ -193,25 +192,36 @@
             }
           },
           {
-            "id": "a8c09095a733999c",
+            "id": "7b4b5ad801209f12",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          },
+          {
+            "id": "13c5f42d46b19a1e",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "个人测评网站.md",
+                "file": "问题.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "个人测评网站 的大纲"
+              "title": "问题 的大纲"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 373.5,
     "collapsed": true
   },
   "left-ribbon": {
@@ -223,16 +233,17 @@
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "bases:新建数据库": false,
-      "markdown-importer:打开 Markdown 格式转换器": false,
       "obsidian-git:Open Git source control": false,
       "obsidian-excalidraw-plugin:新建绘图文件": false,
       "obsidian42-brat:BRAT": false,
-      "notebook-navigator:笔记本导航器": false,
-      "copilot:Open Copilot Chat": false
+      "notebook-navigator:笔记本导航器": false
     }
   },
-  "active": "df10832f22469d45",
+  "active": "02d2761fd94a13d1",
   "lastOpenFiles": [
+    "个人测评网站.md",
+    "后续更改思路.md",
+    "copilot/copilot-custom-prompts/Make shorter.md",
     "copilot/copilot-custom-prompts/Clip Web Page.md",
     "copilot/copilot-custom-prompts/Clip YouTube Transcript.md",
     "copilot/copilot-custom-prompts/Rewrite as tweet thread.md",
@@ -241,7 +252,6 @@
     "copilot/copilot-custom-prompts/Generate glossary.md",
     "copilot/copilot-custom-prompts/Generate table of contents.md",
     "copilot/copilot-custom-prompts/Make longer.md",
-    "copilot/copilot-custom-prompts/Make shorter.md",
     "copilot/copilot-custom-prompts/Emojify.md",
     "copilot/copilot-custom-prompts/Explain like I am 5.md",
     "copilot/copilot-custom-prompts/Simplify.md",
@@ -250,9 +260,7 @@
     "copilot/copilot-custom-prompts/Fix grammar and spelling.md",
     "copilot/copilot-custom-prompts",
     "copilot",
-    "后续更改思路.md",
     "后续文字内容美化.md",
-    "个人测评网站.md",
     "问题.md"
   ]
 }
