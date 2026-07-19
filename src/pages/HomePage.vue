@@ -1,96 +1,105 @@
+<template>
+  <div class="min-h-screen relative">
+    <Earth3D />
+    
+    <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12">
+      <div class="text-center mb-8">
+        <div class="mb-6 flex justify-center">
+          <span class="badge-hud flex items-center gap-2 px-4 py-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            EARTH ONLINE · CLASS DETECTION SYSTEM
+          </span>
+        </div>
+        
+        <h1 class="game-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl mb-4">
+          地球 Online
+        </h1>
+        <h2 class="text-xl md:text-2xl text-cyan-300 font-light tracking-widest mb-3" style="font-family:'Orbitron',sans-serif">
+          CLASS DETECTION
+        </h2>
+        <div class="hud-divider max-w-md mx-auto"></div>
+        <p class="text-blue-200/70 max-w-lg mx-auto text-base md:text-lg leading-relaxed mt-4" style="font-family:'Noto Sans SC',sans-serif">
+          欢迎来到 <span class="text-cyan-300 font-semibold">地球 Online</span>。
+          在这个沙盒世界中，每个玩家都有独特的<span class="text-purple-300 font-semibold">驱动属性</span>。
+          完成检测，找到你的专属职业定位。
+        </p>
+      </div>
+
+      <div class="hud-panel p-6 md:p-8 max-w-xl w-full mb-8 relative">
+        <div class="hud-corner tl"></div>
+        <div class="hud-corner tr"></div>
+        <div class="hud-corner bl"></div>
+        <div class="hud-corner br"></div>
+        <div class="scanline-overlay"></div>
+        
+        <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-3" style="font-family:'Orbitron',sans-serif">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          系统说明
+        </h3>
+        
+        <div class="space-y-3 text-blue-200/80 text-sm" style="font-family:'Noto Sans SC',sans-serif">
+          <p class="flex items-start gap-3">
+            <span class="data-stream mt-0.5">01</span>
+            <span>检测包含 <span class="text-cyan-300">15-19 个问题</span>，预计耗时 3-5 分钟</span>
+          </p>
+          <p class="flex items-start gap-3">
+            <span class="data-stream mt-0.5">02</span>
+            <span>部分题目支持<span class="text-cyan-300">多选</span>，请选择最符合你的选项</span>
+          </p>
+          <p class="flex items-start gap-3">
+            <span class="data-stream mt-0.5">03</span>
+            <span>检测完成后，获得你的 <span class="text-purple-300">主/副职业</span> 及详细属性分析</span>
+          </p>
+        </div>
+
+        <div class="hud-divider"></div>
+
+        <div class="grid grid-cols-3 gap-2">
+          <div v-for="item in classPreview" :key="item.name" 
+               class="role-card text-center p-2"
+               :style="{ borderColor: item.color + '40' }">
+            <div class="role-card-icon mx-auto mb-1 text-xs"
+                 :style="{ background: item.color }">
+              {{ item.icon }}
+            </div>
+            <div class="text-xs text-blue-300" style="font-family:'Noto Sans SC',sans-serif">{{ item.name }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4">
+        <button @click="startTest" class="btn-game text-lg px-8 py-4">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          开始检测
+        </button>
+      </div>
+
+      <div class="mt-12 text-center">
+        <p class="data-stream">EARTH ONLINE v2.0 · CLASS DETECTION MODULE</p>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { Moon } from 'lucide-vue-next'
+import Earth3D from '@/components/Earth3D.vue'
+import { driverTypes } from '@/data/questions'
 
 const router = useRouter()
-const stars = ref<Array<{ id: number; left: string; top: string; size: string; delay: string }>>([])
 
-onMounted(() => {
-  const starCount = 100
-  for (let i = 0; i < starCount; i++) {
-    stars.value.push({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      size: `${Math.random() * 3 + 1}px`,
-      delay: `${Math.random() * 3}s`
-    })
-  }
-})
+const classPreview = driverTypes.slice(0, 9).map(d => ({
+  name: d.name,
+  color: d.color,
+  icon: d.name.charAt(0)
+}))
 
 function startTest() {
   router.push('/test')
 }
 </script>
-
-<template>
-  <div class="relative min-h-screen overflow-hidden mystic-bg">
-    <div class="absolute inset-0">
-      <div
-        v-for="star in stars"
-        :key="star.id"
-        class="star"
-        :style="{
-          left: star.left,
-          top: star.top,
-          width: star.size,
-          height: star.size,
-          animationDelay: star.delay
-        }"
-      ></div>
-    </div>
-
-    <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-      <div class="text-center max-w-2xl">
-        <div class="mb-8 animate-float">
-          <div class="w-24 h-24 mx-auto flex items-center justify-center">
-            <Moon class="w-20 h-20 drop-shadow-[0_0_20px_rgba(244,208,63,0.6)]" style="fill: #f4d03f; color: #f4d03f;" />
-          </div>
-        </div>
-
-        <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 bg-gradient-to-r from-gold-400 via-white to-gold-500 bg-clip-text text-transparent">
-          探索你的驱动力
-        </h1>
-
-        <p class="text-lg md:text-xl text-gray-300 mb-4 leading-relaxed">
-          人的一生就是在追求满足、快乐与喜悦。
-        </p>
-        
-        <p class="text-gray-400 mb-8">
-          这个测试将帮助你发现，这些积极情感是从哪里得来的。
-        </p>
-
-        <div class="grid grid-cols-3 gap-3 mb-10 max-w-md mx-auto text-sm text-gray-400">
-          <div class="border border-gold-500/20 rounded-lg p-2">学习驱动</div>
-          <div class="border border-gold-500/20 rounded-lg p-2">成就驱动</div>
-          <div class="border border-gold-500/20 rounded-lg p-2">娱乐驱动</div>
-          <div class="border border-gold-500/20 rounded-lg p-2">权力驱动</div>
-          <div class="border border-gold-500/20 rounded-lg p-2">社交驱动</div>
-          <div class="border border-gold-500/20 rounded-lg p-2">利他驱动</div>
-          <div class="border border-gold-500/20 rounded-lg p-2">审美驱动</div>
-          <div class="border border-gold-500/20 rounded-lg p-2">探索驱动</div>
-          <div class="border border-gold-500/20 rounded-lg p-2">稳定驱动</div>
-        </div>
-
-        <button
-          @click="startTest"
-          class="btn-gold text-lg"
-        >
-          开始探索
-        </button>
-
-        <p class="mt-6 text-gray-500 text-sm">
-          测试共约12-15题，预计耗时3-5分钟
-        </p>
-      </div>
-
-      <div class="absolute bottom-8 left-0 right-0 text-center">
-        <div class="inline-flex items-center gap-2 text-gray-500 text-sm">
-          <span class="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
-          <span>发现真实的自己</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>

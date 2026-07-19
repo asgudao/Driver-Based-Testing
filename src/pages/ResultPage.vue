@@ -1,40 +1,39 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import type { TestResult } from '@/types'
 import { driverTypes } from '@/data/questions'
+import Earth3D from '@/components/Earth3D.vue'
 
 const router = useRouter()
 const result = ref<TestResult | null>(null)
-const stars = ref<Array<{ id: number, left: string, top: string, size: string, delay: string }>>([])
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const isAnimating = ref(false)
 
 let resizeObserver: ResizeObserver | null = null
 
-onMounted(() => {
-  for (let i = 0; i < 50; i++) {
-    stars.value.push({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      size: `${Math.random() * 2 + 1}px`,
-      delay: `${Math.random() * 3}s`
-    })
-  }
+const classIcons: Record<number, string> = {
+  1: '📚',
+  2: '⚔️',
+  3: '🎮',
+  4: '👑',
+  5: '🤝',
+  6: '🛡️',
+  7: '🎨',
+  8: '🗺️',
+  9: '🏰'
+}
 
+onMounted(() => {
   const storedResult = sessionStorage.getItem('testResult')
   if (storedResult) {
     result.value = JSON.parse(storedResult)
     setTimeout(() => {
       isAnimating.value = true
       drawRadar()
-
       if (canvasRef.value) {
         resizeObserver = new ResizeObserver(() => {
-          if (result.value) {
-            drawRadar()
-          }
+          if (result.value) drawRadar()
         })
         resizeObserver.observe(canvasRef.value)
       }
@@ -45,15 +44,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  if (resizeObserver) {
-    resizeObserver.disconnect()
-  }
-})
-
-watch(result, () => {
-  if (result.value) {
-    drawRadar()
-  }
+  if (resizeObserver) resizeObserver.disconnect()
 })
 
 const primaryDriverInfo = computed(() => {
@@ -104,7 +95,7 @@ function drawRadar() {
       }
     }
     ctx.closePath()
-    ctx.strokeStyle = `rgba(244, 208, 63, ${0.1 + level * 0.05})`
+    ctx.strokeStyle = `rgba(96, 165, 250, ${0.08 + level * 0.04})`
     ctx.lineWidth = 1
     ctx.stroke()
   }
@@ -113,18 +104,17 @@ function drawRadar() {
     const angle = i * angleStep - Math.PI / 2
     const x = centerX + radius * Math.cos(angle)
     const y = centerY + radius * Math.sin(angle)
-
     ctx.beginPath()
     ctx.moveTo(centerX, centerY)
     ctx.lineTo(x, y)
-    ctx.strokeStyle = 'rgba(244, 208, 63, 0.2)'
+    ctx.strokeStyle = 'rgba(96, 165, 250, 0.15)'
     ctx.lineWidth = 1
     ctx.stroke()
   }
 
-  ctx.fillStyle = '#f4d03f'
-  const labelFontSize = rect.width < 480 ? '12px' : '13px'
-  ctx.font = `${labelFontSize} Inter, sans-serif`
+  ctx.fillStyle = '#93c5fd'
+  const labelFontSize = rect.width < 480 ? '12px' : '14px'
+  ctx.font = `500 ${labelFontSize} "Noto Sans SC", sans-serif`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
 
@@ -132,11 +122,7 @@ function drawRadar() {
     const angle = i * angleStep - Math.PI / 2
     const textWidth = ctx.measureText(drivers[i].name).width
     const textHeight = 20
-    const isSmallScreen = rect.width < 480
-    const baseMargin = isSmallScreen ? 35 : 25
-    const minLabelRadius = radius + Math.max(textWidth, textHeight) / 2 + baseMargin
-    const defaultLabelRadius = isSmallScreen ? radius + 65 : radius + 55
-    const labelRadius = Math.max(defaultLabelRadius, minLabelRadius)
+    const labelRadius = isSmallScreen ? radius + 55 : radius + 45
     const labelX = centerX + labelRadius * Math.cos(angle)
     const labelY = centerY + labelRadius * Math.sin(angle)
 
@@ -154,7 +140,7 @@ function drawRadar() {
   }
 
   ctx.beginPath()
-  const scores = drivers.map(d => result.value!.scores[d.code] || 0)
+  const scores = drivers.map(d => (result.value!.scores[d.code] || 0) + 1)
   const maxScore = Math.max(...scores, 1)
 
   for (let i = 0; i < drivers.length; i++) {
@@ -162,7 +148,6 @@ function drawRadar() {
     const normalizedScore = (scores[i] / maxScore) * radius
     const x = centerX + normalizedScore * Math.cos(angle)
     const y = centerY + normalizedScore * Math.sin(angle)
-
     if (i === 0) {
       ctx.moveTo(x, y)
     } else {
@@ -172,13 +157,14 @@ function drawRadar() {
   ctx.closePath()
 
   const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius)
-  gradient.addColorStop(0, 'rgba(244, 208, 63, 0.6)')
-  gradient.addColorStop(1, 'rgba(244, 208, 63, 0.1)')
+  gradient.addColorStop(0, 'rgba(96, 165, 250, 0.5)')
+  gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.3)')
+  gradient.addColorStop(1, 'rgba(34, 211, 238, 0.1)')
   ctx.fillStyle = gradient
   ctx.fill()
 
-  ctx.strokeStyle = '#f4d03f'
-  ctx.lineWidth = 1
+  ctx.strokeStyle = '#60a5fa'
+  ctx.lineWidth = 2
   ctx.stroke()
 
   for (let i = 0; i < drivers.length; i++) {
@@ -188,11 +174,11 @@ function drawRadar() {
     const y = centerY + normalizedScore * Math.sin(angle)
 
     ctx.beginPath()
-    ctx.arc(x, y, 2.5, 0, Math.PI * 2)
-    ctx.fillStyle = '#f4d03f'
+    ctx.arc(x, y, 4, 0, Math.PI * 2)
+    ctx.fillStyle = '#93c5fd'
     ctx.fill()
-    ctx.strokeStyle = '#000000'
-    ctx.lineWidth = 1
+    ctx.strokeStyle = '#1e3a5f'
+    ctx.lineWidth = 2
     ctx.stroke()
   }
 }
@@ -209,117 +195,205 @@ function goHome() {
 </script>
 
 <template>
-  <div class="relative min-h-screen overflow-hidden mystic-bg">
-    <div class="absolute inset-0">
-      <div
-        v-for="star in stars"
-        :key="star.id"
-        class="star"
-        :style="{
-          left: star.left,
-          top: star.top,
-          width: star.size,
-          height: star.size,
-          animationDelay: star.delay
-        }"
-      ></div>
-    </div>
-
-    <div class="relative z-10 flex flex-col min-h-screen px-4 py-8">
-      <div class="flex justify-between items-center mb-8">
-        <button @click="goHome" class="btn-mystic">← 返回首页</button>
-        <button @click="restartTest" class="btn-mystic">重新测试</button>
+  <div class="min-h-screen relative">
+    <Earth3D />
+    
+    <div class="relative z-10 flex flex-col min-h-screen px-4 py-6 md:py-8">
+      <div class="flex justify-between items-center mb-6 md:mb-8">
+        <button @click="goHome" class="btn-secondary">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          返回首页
+        </button>
+        <button @click="restartTest" class="btn-secondary">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          重新检测
+        </button>
       </div>
 
       <div v-if="result" class="flex-1 flex flex-col items-center">
-        <h1
-          class="text-3xl md:text-4xl font-serif mb-2 tracking-wider"
-          style="background: linear-gradient(135deg, #b8901a 0%, #f4d03f 40%, #fff8dc 50%, #f4d03f 60%, #b8901a 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(244, 208, 63, 0.3));"
-        >
-          测试结果
-        </h1>
-        <p class="text-gold-400/60 mb-8 tracking-wide">探索你的内在驱动力</p>
-
-        <!-- 雷达图 -->
-        <div
-          class="w-full max-w-xl mb-10 p-4"
-          :class="{ 'opacity-0': !isAnimating }"
-          style="transition: opacity 0.5s ease"
-        >
-          <canvas ref="canvasRef" class="w-full" style="min-height: 480px; max-height: 550px;"></canvas>
-        </div>
-
-        <!-- 主要驱动 -->
-        <div
-          v-if="primaryDriverInfo"
-          class="card-gold-frame w-full max-w-2xl mb-6"
-          :class="{ 'opacity-0 translate-y-4': !isAnimating }"
-          style="transition: all 0.5s ease 0.2s"
-        >
-          <div class="flex items-center gap-4 mb-4">
-            <div
-              class="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-gold-400 border border-gold-500/50 leading-none"
-            >主</div>
-            <div>
-              <h2 class="text-xl font-bold text-white">{{ primaryDriverInfo.name }}驱动型</h2>
-              <p class="text-gold-400">{{ primaryDriverInfo.description }}</p>
-            </div>
+        <div class="text-center mb-8">
+          <div class="mb-4">
+            <span class="badge-hud flex items-center gap-2 mx-auto w-fit">
+              <span class="pulse-dot"></span>
+              ANALYSIS COMPLETE
+            </span>
           </div>
-          <p class="text-gray-300 leading-relaxed">{{ primaryDriverInfo.detail }}</p>
+          <h1 class="game-title text-3xl md:text-5xl mb-3">
+            检测完成
+          </h1>
+          <p class="text-cyan-300/60" style="font-family:'Orbitron',sans-serif;font-size:0.85rem;letter-spacing:0.1em">
+            CLASS ALLOCATION REPORT
+          </p>
         </div>
 
-        <!-- 次要驱动 -->
-        <div
-          v-if="secondaryDriverInfo"
-          class="card-gold-frame w-full max-w-2xl mb-8"
-          :class="{ 'opacity-0 translate-y-4': !isAnimating }"
-          style="transition: all 0.5s ease 0.4s"
-        >
-          <div class="flex items-center gap-4 mb-4">
-            <div
-              class="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-gold-400 border border-gold-500/50 leading-none"
-            >次</div>
-            <div>
-              <h2 class="text-xl font-bold text-white">{{ secondaryDriverInfo.name }}驱动型</h2>
-              <p class="text-gold-400/70">{{ secondaryDriverInfo.description }}</p>
-            </div>
+        <div class="hud-panel w-full max-w-xl mb-8 p-4 md:p-6 relative"
+             :class="{ 'opacity-0': !isAnimating }"
+             style="transition: opacity 0.5s ease">
+          <div class="hud-corner tl"></div>
+          <div class="hud-corner tr"></div>
+          <div class="hud-corner bl"></div>
+          <div class="hud-corner br"></div>
+          
+          <div class="text-center mb-4">
+            <span class="data-stream">ATTRIBUTE RADAR</span>
           </div>
-          <p class="text-gray-300 leading-relaxed">{{ secondaryDriverInfo.detail }}</p>
+          
+          <div class="radar-container">
+            <canvas ref="canvasRef" class="w-full" style="min-height: 380px; max-height: 480px;"></canvas>
+          </div>
         </div>
 
-        <!-- 各维度得分 -->
+        <div class="grid md:grid-cols-2 gap-6 w-full max-w-3xl mb-8">
+          <div
+            v-if="primaryDriverInfo"
+            class="class-card primary"
+            :class="{ 'opacity-0 translate-y-4': !isAnimating }"
+            style="transition: all 0.5s ease 0.2s"
+          >
+            <div class="hud-corner tl"></div>
+            <div class="hud-corner tr"></div>
+            <div class="hud-corner bl"></div>
+            <div class="hud-corner br"></div>
+            
+            <div class="flex items-center gap-4 mb-4 relative z-10">
+              <div class="class-icon" :style="{ background: `linear-gradient(135deg, ${primaryDriverInfo.color}, ${primaryDriverInfo.color}dd)` }">
+                {{ classIcons[primaryDriverInfo.code] }}
+              </div>
+              <div>
+                <div class="data-stream mb-1">PRIMARY CLASS</div>
+                <h2 class="text-xl md:text-2xl font-bold text-white" style="font-family:'Noto Sans SC',sans-serif">
+                  {{ primaryDriverInfo.name }}
+                </h2>
+              </div>
+            </div>
+            <p class="text-blue-300 text-sm mb-3 relative z-10" style="font-family:'Noto Sans SC',sans-serif">
+              {{ primaryDriverInfo.description }}
+            </p>
+            <p class="text-gray-400 text-sm leading-relaxed relative z-10" style="font-family:'Noto Sans SC',sans-serif">
+              {{ primaryDriverInfo.detail }}
+            </p>
+          </div>
+
+          <div
+            v-if="secondaryDriverInfo"
+            class="class-card secondary"
+            :class="{ 'opacity-0 translate-y-4': !isAnimating }"
+            style="transition: all 0.5s ease 0.4s"
+          >
+            <div class="hud-corner tl"></div>
+            <div class="hud-corner tr"></div>
+            <div class="hud-corner bl"></div>
+            <div class="hud-corner br"></div>
+            
+            <div class="flex items-center gap-4 mb-4 relative z-10">
+              <div class="class-icon" :style="{ background: `linear-gradient(135deg, ${secondaryDriverInfo.color}, ${secondaryDriverInfo.color}dd)` }">
+                {{ classIcons[secondaryDriverInfo.code] }}
+              </div>
+              <div>
+                <div class="data-stream mb-1">SECONDARY CLASS</div>
+                <h2 class="text-xl md:text-2xl font-bold text-white" style="font-family:'Noto Sans SC',sans-serif">
+                  {{ secondaryDriverInfo.name }}
+                </h2>
+              </div>
+            </div>
+            <p class="text-purple-300 text-sm mb-3 relative z-10" style="font-family:'Noto Sans SC',sans-serif">
+              {{ secondaryDriverInfo.description }}
+            </p>
+            <p class="text-gray-400 text-sm leading-relaxed relative z-10" style="font-family:'Noto Sans SC',sans-serif">
+              {{ secondaryDriverInfo.detail }}
+            </p>
+          </div>
+        </div>
+
         <div
-          class="w-full max-w-2xl mb-8 card-mystic p-6"
+          class="hud-panel w-full max-w-3xl p-5 md:p-6 mb-8 relative"
           :class="{ 'opacity-0': !isAnimating }"
           style="transition: opacity 0.5s ease 0.6s"
         >
-          <h3 class="text-lg font-serif text-gold-400 mb-4 gold-pattern py-2">各维度得分</h3>
-          <div class="space-y-3">
+          <div class="hud-corner tl"></div>
+          <div class="hud-corner tr"></div>
+          <div class="hud-corner bl"></div>
+          <div class="hud-corner br"></div>
+          
+          <div class="text-center mb-6">
+            <span class="data-stream">ATTRIBUTE BREAKDOWN</span>
+          </div>
+          
+          <div class="space-y-4">
             <div
-              v-for="driver in result.allDrivers"
+              v-for="(driver, index) in result.allDrivers"
               :key="driver.code"
-              class="flex items-center gap-2 md:gap-3"
+              class="flex items-center gap-3"
             >
-              <span class="w-14 md:w-20 text-sm text-gray-400 shrink-0">{{ driver.name }}</span>
-              <div class="flex-1 h-2 bg-gray-800/50 rounded-full overflow-hidden">
+              <span class="w-3 h-3 rounded-full flex-shrink-0" 
+                    :class="index === 0 ? 'bg-blue-400' : index === 1 ? 'bg-purple-400' : 'bg-gray-500'"></span>
+              <span class="w-16 md:w-20 text-sm font-medium" 
+                    :class="index === 0 ? 'text-blue-300' : index === 1 ? 'text-purple-300' : 'text-gray-400'"
+                    style="font-family:'Noto Sans SC',sans-serif">
+                {{ driver.name }}
+              </span>
+              <div class="flex-1 stat-bar">
                 <div
-                  class="h-full rounded-full transition-all duration-700"
-                  :style="{
-                    width: `${(driver.score / Math.max(...result.allDrivers.map(d => d.score))) * 100}%`,
-                    background: 'linear-gradient(to right, rgba(184, 144, 26, 0.5), #f4d03f)'
-                  }"
+                  class="stat-bar-fill"
+                  :class="index === 0 ? 'bg-gradient-to-r from-blue-600 to-blue-400' : 
+                          index === 1 ? 'bg-gradient-to-r from-purple-600 to-purple-400' : 
+                          'bg-gradient-to-r from-gray-600 to-gray-500'"
+                  :style="{ width: `${(driver.score / Math.max(...result.allDrivers.map(d => d.score))) * 100}%` }"
                 ></div>
               </div>
-              <span class="w-6 md:w-8 text-sm text-gray-400 text-right shrink-0">{{ driver.score }}</span>
+              <span class="w-6 md:w-8 text-sm text-right font-mono"
+                    :class="index === 0 ? 'text-blue-300' : index === 1 ? 'text-purple-300' : 'text-gray-500'">
+                {{ driver.score }}
+              </span>
             </div>
           </div>
         </div>
 
-        <div class="flex gap-4">
-          <button @click="restartTest" class="btn-gold">重新测试</button>
-          <button @click="goHome" class="btn-mystic">返回首页</button>
+        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+          <button @click="restartTest" class="btn-game">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            重新检测
+          </button>
+          <button @click="goHome" class="btn-secondary">
+            返回首页
+          </button>
+        </div>
+
+        <div class="text-center">
+          <p class="data-stream">EARTH ONLINE v2.0 · ANALYSIS MODULE COMPLETE</p>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.class-card {
+  position: relative;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(10, 15, 30, 0.9) 0%, rgba(20, 15, 50, 0.85) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.class-card.primary {
+  border-color: rgba(96, 165, 250, 0.5);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+}
+
+.class-card.secondary {
+  border-color: rgba(167, 139, 250, 0.5);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+}
+
+.radar-container {
+  filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.2));
+}
+</style>
