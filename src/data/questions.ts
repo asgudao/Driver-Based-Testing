@@ -73,12 +73,12 @@ export const questions: Question[] = [
     multiSelect: true,
     options: [
       { id: 'q1-a', label: '玩游戏（电子/线下）', scores: [3] },
-      { id: 'q1-b', label: '刷视频/追剧', scores: [3] },
-      { id: 'q1-c', label: '学习新技能/知识', scores: [1] },
+      { id: 'q1-b', label: '刷视频', scores: [3] },
+      { id: 'q1-c', label: '学习知识', scores: [1] },
       { id: 'q1-d', label: '探索地球Online地图', scores: [8] },
-      { id: 'q1-e', label: '和其他玩家组队活动', scores: [5] },
-      { id: 'q1-f', label: '完成支线任务（如打扫/整理）', scores: [2] },
-      { id: 'q1-g', label: '欣赏艺术作品/创作', scores: [7] }
+      { id: 'q1-e', label: '和其他玩家小聚', scores: [5] },
+      { id: 'q1-f', label: '完成支线任务，如打扫房间', scores: [2] },
+      { id: 'q1-g', label: '欣赏艺术作品', scores: [] }
     ]
   },
   {
@@ -90,12 +90,12 @@ export const questions: Question[] = [
       optionIds: ['q1-a']
     },
     options: [
-      { id: 'q1a-a', label: '探索未知世界，收集藏品', scores: [8] },
-      { id: 'q1a-b', label: '通过技术/智慧赢得胜利', scores: [2] },
-      { id: 'q1a-c', label: '培养角色/基地的养成感', scores: [9] },
-      { id: 'q1a-d', label: '和队友聊天互动', scores: [5] },
-      { id: 'q1a-e', label: '欣赏游戏美术/剧情/特效', scores: [7] },
-      { id: 'q1a-f', label: '战略布局，指挥决策', scores: [4] }
+      { id: 'q1a-a', label: '探索未知，收集藏品', scores: [8] },
+      { id: 'q1a-b', label: '通过技术或智慧获胜', scores: [2] },
+      { id: 'q1a-c', label: '通过日积月累的运营获得成就感', scores: [9] },
+      { id: 'q1a-d', label: '在游戏中与他人聊天', scores: [5] },
+      { id: 'q1a-e', label: '欣赏景色、人物建模、战斗特效、游戏玩法、剧情', scores: [7] },
+      { id: 'q1a-f', label: '喜欢排兵布阵，决策选择', scores: [4] }
     ]
   },
   {
@@ -107,160 +107,126 @@ export const questions: Question[] = [
       optionIds: ['q1-g']
     },
     options: [
-      { id: 'q1b-a', label: '纯粹享受美的体验', scores: [7] },
-      { id: 'q1b-b', label: '从中获取灵感和知识', scores: [1] },
-      { id: 'q1b-c', label: '体验不同的故事和情感', scores: [7, 3] },
-      { id: 'q1b-d', label: '作为社交话题', scores: [5] }
+      { id: 'q1b-a', label: '欣赏作品', scores: [7] },
+      { id: 'q1b-b', label: '从中学习', scores: [1] }
     ]
   },
   {
     id: 'q2',
-    text: '如果可以自由选择职业路线，你更倾向于？',
+    text: '你以后从事工作，更愿意选择哪种？',
     multiSelect: true,
     options: [
-      { id: 'q2-a', label: '轻松稳定的休闲路线', scores: [3, 9] },
-      { id: 'q2-b', label: '需要不断学习的成长路线', scores: [1, 8] },
-      { id: 'q2-c', label: '创造设计的创意路线', scores: [2, 8, 7] },
-      { id: 'q2-d', label: '指挥领导的管理路线', scores: [4] },
-      { id: 'q2-e', label: '帮助他人的支援路线', scores: [6] },
-      { id: 'q2-f', label: '社交沟通的外交路线', scores: [5] },
-      { id: 'q2-g', label: '探索未知的冒险路线', scores: [8] },
-      { id: 'q2-h', label: '艺术创作的演艺路线', scores: [7] }
+      { id: 'q2-a', label: '工资少一点但工作轻松', scores: [3, 9] },
+      { id: 'q2-b', label: '需要不断学习的工作', scores: [1, 8] },
+      { id: 'q2-c', label: '创造、设计类工作', scores: [2, 8, 7] },
+      { id: 'q2-d', label: '领导岗位', scores: [4] },
+      { id: 'q2-e', label: '帮助他人的工作', scores: [6] },
+      { id: 'q2-f', label: '与他人交流沟通的工作', scores: [5] },
+      { id: 'q2-g', label: '稳定的工作', scores: [9] }
     ]
   },
   {
     id: 'q3',
-    text: '在游戏/生活中，你是否愿意主动学习新技能？',
+    text: '在生活中，你是否愿意主动学习？',
     options: [
-      { id: 'q3-yes', label: '是的，经常主动学习', scores: [1] },
-      { id: 'q3-some', label: '偶尔会学习', scores: [] },
-      { id: 'q3-no', label: '很少或从不主动学习', scores: [] }
+      { id: 'q3-yes', label: '是', scores: [1] },
+      { id: 'q3-no', label: '否', scores: [] }
     ]
   },
   {
     id: 'q4',
-    text: '学习新技能后，你是否会有满足感？',
+    text: '你是否会在学习之后有满足感？',
     options: [
-      { id: 'q4-yes', label: '是的，很有成就感', scores: [1] },
-      { id: 'q4-some', label: '要看学的是什么', scores: [] },
-      { id: 'q4-no', label: '没有特别的感觉', scores: [] }
+      { id: 'q4-yes', label: '是', scores: [1] },
+      { id: 'q4-no', label: '否', scores: [] }
     ]
   },
   {
     id: 'q5',
-    text: '完成一个有难度的任务后，你通常会有强烈的满足感吗？',
+    text: '在你完成一个任务之后，你会有强烈的满足感吗？',
     options: [
-      { id: 'q5-yes', label: '是的，非常有成就感', scores: [2] },
-      { id: 'q5-some', label: '还好，看情况', scores: [] },
-      { id: 'q5-no', label: '没什么特别感觉', scores: [] }
+      { id: 'q5-yes', label: '是', scores: [2] },
+      { id: 'q5-no', label: '否', scores: [] }
     ]
   },
   {
     id: 'q6',
-    text: '在进行娱乐活动后，你通常不会感到空虚或浪费时间',
+    text: '在进行娱乐之后，你不会有空虚的感觉，不会觉得自己的时间浪费了',
     options: [
-      { id: 'q6-yes', label: '是的，娱乐让我放松', scores: [3] },
-      { id: 'q6-some', label: '有时会有点内疚', scores: [] },
-      { id: 'q6-no', label: '经常觉得浪费了时间', scores: [] }
+      { id: 'q6-yes', label: '是', scores: [] },
+      { id: 'q6-no', label: '否', scores: [3] }
     ]
   },
   {
     id: 'q7',
-    text: '通过指挥安排他人工作，从而达成目标后，你会有满足感吗？',
+    text: '在通过安排别人工作来达成任务之后，你会有满足感吗？',
     options: [
-      { id: 'q7-yes', label: '是的，我喜欢指挥', scores: [4] },
-      { id: 'q7-some', label: '偶尔会有', scores: [] },
-      { id: 'q7-no', label: '不太喜欢指挥别人', scores: [5] }
+      { id: 'q7-yes', label: '是', scores: [4] },
+      { id: 'q7-no', label: '否', scores: [5] }
     ]
   },
   {
     id: 'q8',
-    text: '如果你感到非常疲惫，你更倾向于找他人倾诉排解',
+    text: '如果你觉得非常疲惫，你可能更倾向于通过他人进行排解',
     options: [
-      { id: 'q8-yes', label: '是的，找人聊聊会好很多', scores: [5] },
-      { id: 'q8-some', label: '看情况', scores: [] },
-      { id: 'q8-no', label: '更喜欢自己消化', scores: [] }
+      { id: 'q8-yes', label: '是', scores: [5] },
+      { id: 'q8-no', label: '否', scores: [] }
     ]
   },
   {
     id: 'q9',
-    text: '帮助他人（或做了好事）之后，你会感到很满足',
+    text: '你在帮助他人（或动物）或者做了一件好事之后，会有很满足的感觉',
     options: [
-      { id: 'q9-yes', label: '是的，这让我很开心', scores: [6] },
-      { id: 'q9-some', label: '偶尔会有', scores: [] },
-      { id: 'q9-no', label: '没什么特别感觉', scores: [] }
+      { id: 'q9-yes', label: '是', scores: [6] },
+      { id: 'q9-no', label: '否', scores: [] }
     ]
   },
   {
     id: 'q10',
-    text: '即使帮助他人可能存在风险，你还是愿意尝试',
+    text: '如果在帮助他人可能有风险的情况下，你还是愿意尝试',
     options: [
-      { id: 'q10-yes', label: '是的，义无反顾', scores: [6] },
-      { id: 'q10-some', label: '看风险大小', scores: [] },
-      { id: 'q10-no', label: '会先保护自己', scores: [] }
+      { id: 'q10-yes', label: '是', scores: [6] },
+      { id: 'q10-no', label: '否', scores: [] }
     ]
   },
   {
     id: 'q11',
-    text: '在博物馆/展览中欣赏展品时，你会感到内心平静',
+    text: '你在博物馆、展览中参观会觉得内心安定',
     options: [
-      { id: 'q11-yes', label: '是的，很享受', scores: [7] },
-      { id: 'q11-some', label: '有些展品会', scores: [] },
-      { id: 'q11-no', label: '不觉得有什么特别', scores: [] }
+      { id: 'q11-yes', label: '是', scores: [7] },
+      { id: 'q11-no', label: '否', scores: [] }
     ]
   },
   {
     id: 'q12',
-    text: '你发现生活中有许多景观和建筑都很美',
+    text: '你感觉生活中有一些景观和建筑都是很美的',
     options: [
-      { id: 'q12-yes', label: '是的，处处都能发现美', scores: [7] },
-      { id: 'q12-some', label: '偶尔会注意到', scores: [] },
-      { id: 'q12-no', label: '不太留意这些', scores: [] }
+      { id: 'q12-yes', label: '是', scores: [7] },
+      { id: 'q12-no', label: '否', scores: [] }
     ]
   },
   {
     id: 'q13',
-    text: '你喜欢探索从未去过的地方',
+    text: '你喜欢探索没有去过的地方',
     options: [
-      { id: 'q13-yes', label: '是的，越陌生越兴奋', scores: [8] },
-      { id: 'q13-some', label: '会有兴趣但有点担心', scores: [] },
-      { id: 'q13-no', label: '更喜欢待在熟悉的地方', scores: [9] }
+      { id: 'q13-yes', label: '是', scores: [8] },
+      { id: 'q13-no', label: '否', scores: [9] }
     ]
   },
   {
     id: 'q14',
-    text: '比起熟悉的领域，你更喜欢探索未知的领域',
+    text: '你喜欢探索未知的领域，比起你熟悉的领域',
     options: [
-      { id: 'q14-yes', label: '是的，未知更有吸引力', scores: [8] },
-      { id: 'q14-some', label: '各有各的好', scores: [] },
-      { id: 'q14-no', label: '精通一个领域更好', scores: [9] }
+      { id: 'q14-yes', label: '是', scores: [8] },
+      { id: 'q14-no', label: '否', scores: [9] }
     ]
   },
   {
     id: 'q15',
-    text: '你更愿意尝试新的领域，哪怕可能会失败',
+    text: '你更愿意尝试新的领域，哪怕会失败',
     options: [
-      { id: 'q15-yes', label: '是的，失败也是经验', scores: [8] },
-      { id: 'q15-some', label: '看情况决定', scores: [] },
-      { id: 'q15-no', label: '稳妥起见，不轻易尝试', scores: [9] }
-    ]
-  },
-  {
-    id: 'q16',
-    text: '在团队合作中，你通常是主动承担任务的那个人',
-    options: [
-      { id: 'q16-yes', label: '是的，我喜欢带头', scores: [4] },
-      { id: 'q16-some', label: '看情况', scores: [2] },
-      { id: 'q16-no', label: '更愿意配合他人', scores: [9] }
-    ]
-  },
-  {
-    id: 'q17',
-    text: '如果有机会探索外太空，你会毫不犹豫地报名',
-    options: [
-      { id: 'q17-yes', label: '是的，太酷了！', scores: [8] },
-      { id: 'q17-some', label: '有点怕但愿意试试', scores: [8, 9] },
-      { id: 'q17-no', label: '不去，太危险了', scores: [9] }
+      { id: 'q15-yes', label: '是', scores: [8] },
+      { id: 'q15-no', label: '否', scores: [9] }
     ]
   }
 ]
@@ -282,7 +248,5 @@ export const questionOrder = [
   'q12',
   'q13',
   'q14',
-  'q15',
-  'q16',
-  'q17'
+  'q15'
 ]

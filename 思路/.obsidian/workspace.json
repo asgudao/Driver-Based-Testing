@@ -35,8 +35,7 @@
               "title": "问题"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       },
       {
         "id": "c3980398786c3887",
@@ -248,12 +247,12 @@
       "notebook-navigator:笔记本导航器": false
     }
   },
-  "active": "8092810263ba65ef",
+  "active": "02d2761fd94a13d1",
   "lastOpenFiles": [
     "改后问题.md",
+    "个人测评网站.md",
     "问题.md",
     "后续更改思路.md",
-    "个人测评网站.md",
     "copilot/copilot-custom-prompts/Make shorter.md",
     "copilot/copilot-custom-prompts/Clip Web Page.md",
     "copilot/copilot-custom-prompts/Clip YouTube Transcript.md",

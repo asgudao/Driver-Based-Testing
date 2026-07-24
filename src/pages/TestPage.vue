@@ -174,7 +174,7 @@ function handleSingleAnswer(optionId: string) {
       currentQuestionId.value = nextId
     } else {
       const result = calculateResult(answers.value)
-      sessionStorage.setItem('testResult', JSON.stringify(result))
+      localStorage.setItem('testResult', JSON.stringify(result))
       router.push('/result')
       return
     }
@@ -195,7 +195,7 @@ function confirmMultiAnswer() {
       currentQuestionId.value = nextId
     } else {
       const result = calculateResult(answers.value)
-      sessionStorage.setItem('testResult', JSON.stringify(result))
+      localStorage.setItem('testResult', JSON.stringify(result))
       router.push('/result')
       return
     }

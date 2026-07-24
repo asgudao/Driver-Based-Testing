@@ -1,12 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import MainHomePage from '@/pages/MainHomePage.vue'
 import HomePage from '@/pages/HomePage.vue'
 import TestPage from '@/pages/TestPage.vue'
 import ResultPage from '@/pages/ResultPage.vue'
+import ProfilePage from '@/pages/ProfilePage.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'main-home',
+    component: MainHomePage,
+  },
+  {
+    path: '/test/intro',
+    name: 'test-intro',
     component: HomePage,
   },
   {
@@ -18,6 +25,11 @@ const routes = [
     path: '/result',
     name: 'result',
     component: ResultPage,
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfilePage,
   },
 ]
 

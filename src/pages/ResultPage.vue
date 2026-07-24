@@ -12,20 +12,8 @@ const isAnimating = ref(false)
 
 let resizeObserver: ResizeObserver | null = null
 
-const classIcons: Record<number, string> = {
-  1: '📚',
-  2: '⚔️',
-  3: '🎮',
-  4: '👑',
-  5: '🤝',
-  6: '🛡️',
-  7: '🎨',
-  8: '🗺️',
-  9: '🏰'
-}
-
 onMounted(() => {
-  const storedResult = sessionStorage.getItem('testResult')
+  const storedResult = localStorage.getItem('testResult')
   if (storedResult) {
     result.value = JSON.parse(storedResult)
     setTimeout(() => {
@@ -184,13 +172,15 @@ function drawRadar() {
 }
 
 function restartTest() {
-  sessionStorage.removeItem('testResult')
   router.push('/test')
 }
 
 function goHome() {
-  sessionStorage.removeItem('testResult')
   router.push('/')
+}
+
+function goToProfile() {
+  router.push('/profile')
 }
 </script>
 
@@ -261,7 +251,7 @@ function goHome() {
             
             <div class="flex items-center gap-4 mb-4 relative z-10">
               <div class="class-icon" :style="{ background: `linear-gradient(135deg, ${primaryDriverInfo.color}, ${primaryDriverInfo.color}dd)` }">
-                {{ classIcons[primaryDriverInfo.code] }}
+                {{ primaryDriverInfo.name.charAt(0) }}
               </div>
               <div>
                 <div class="data-stream mb-1">PRIMARY CLASS</div>
@@ -291,7 +281,7 @@ function goHome() {
             
             <div class="flex items-center gap-4 mb-4 relative z-10">
               <div class="class-icon" :style="{ background: `linear-gradient(135deg, ${secondaryDriverInfo.color}, ${secondaryDriverInfo.color}dd)` }">
-                {{ classIcons[secondaryDriverInfo.code] }}
+                {{ secondaryDriverInfo.name.charAt(0) }}
               </div>
               <div>
                 <div class="data-stream mb-1">SECONDARY CLASS</div>
@@ -354,7 +344,13 @@ function goHome() {
         </div>
 
         <div class="flex flex-col sm:flex-row gap-4 mb-8">
-          <button @click="restartTest" class="btn-game">
+          <button @click="goToProfile" class="btn-game">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            查看属性面板
+          </button>
+          <button @click="restartTest" class="btn-secondary">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
