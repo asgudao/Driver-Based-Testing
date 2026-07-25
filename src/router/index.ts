@@ -4,6 +4,8 @@ import HomePage from '@/pages/HomePage.vue'
 import TestPage from '@/pages/TestPage.vue'
 import ResultPage from '@/pages/ResultPage.vue'
 import ProfilePage from '@/pages/ProfilePage.vue'
+import AttributeTestPage from '@/pages/AttributeTestPage.vue'
+import AttributeResultPage from '@/pages/AttributeResultPage.vue'
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfilePage,
+  },
+  {
+    path: '/attribute-test',
+    name: 'attribute-test',
+    component: AttributeTestPage,
+  },
+  {
+    path: '/attribute-result',
+    name: 'attribute-result',
+    component: AttributeResultPage,
   },
 ]
 

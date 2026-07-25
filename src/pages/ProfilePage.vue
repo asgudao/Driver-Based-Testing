@@ -1,35 +1,50 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import type { TestResult } from '@/types'
+import type { TestResult, AttributeResult } from '@/types'
 import { driverTypes } from '@/data/questions'
+import { attributeTypes } from '@/data/attributes'
 import Earth3D from '@/components/Earth3D.vue'
 
 const router = useRouter()
 const result = ref<TestResult | null>(null)
+const attributeResult = ref<AttributeResult | null>(null)
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const isAnimating = ref(false)
 const hasResult = ref(false)
+const hasAttributeResult = ref(false)
 
 let resizeObserver: ResizeObserver | null = null
 
 onMounted(() => {
   const storedResult = localStorage.getItem('testResult')
+  const userData = localStorage.getItem('userData')
+  
   if (storedResult) {
     result.value = JSON.parse(storedResult)
     hasResult.value = true
-    
-    setTimeout(() => {
-      isAnimating.value = true
-      drawRadar()
-      if (canvasRef.value) {
-        resizeObserver = new ResizeObserver(() => {
-          if (result.value) drawRadar()
-        })
-        resizeObserver.observe(canvasRef.value)
-      }
-    }, 500)
   }
+  
+  if (userData) {
+    const parsed = JSON.parse(userData)
+    if (parsed.attributeResult) {
+      attributeResult.value = parsed.attributeResult
+      hasAttributeResult.value = true
+    }
+  }
+  
+  setTimeout(() => {
+    isAnimating.value = true
+    if (result.value) {
+      drawRadar()
+    }
+    if (canvasRef.value) {
+      resizeObserver = new ResizeObserver(() => {
+        if (result.value) drawRadar()
+      })
+      resizeObserver.observe(canvasRef.value)
+    }
+  }, 500)
 })
 
 onUnmounted(() => {
@@ -221,6 +236,10 @@ function takeTest() {
   router.push('/test/intro')
 }
 
+function goToAttributeTest() {
+  router.push('/attribute-test')
+}
+
 function goHome() {
   router.push('/')
 }
@@ -369,6 +388,61 @@ const rankBars: Record<string, string> = {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div v-if="hasAttributeResult && attributeResult" 
+             class="hud-panel p-4 md:p-6 relative" 
+             :class="{ 'opacity-0': !isAnimating }" 
+             style="transition: opacity 0.5s ease 0.6s">
+          <div class="hud-corner tl"></div>
+          <div class="hud-corner tr"></div>
+          <div class="hud-corner bl"></div>
+          <div class="hud-corner br"></div>
+          
+          <div class="text-center mb-4">
+            <span class="data-stream">ATTRIBUTE VALUES</span>
+            <h3 class="text-lg font-bold text-cyan-300 mt-1">属性值</h3>
+          </div>
+          
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div
+              v-for="attr in attributeResult.allAttributes"
+              :key="attr.code"
+              class="attribute-item"
+            >
+              <div class="attr-icon" :style="{ background: attributeTypes.find(a => a.code === attr.code)?.color + '30', borderColor: attributeTypes.find(a => a.code === attr.code)?.color }">
+                {{ attributeTypes.find(a => a.code === attr.code)?.icon }}
+              </div>
+              <div class="attr-info">
+                <span class="attr-name" :style="{ color: attributeTypes.find(a => a.code === attr.code)?.color }">{{ attr.name }}</span>
+                <span class="attr-score">{{ attr.score }}</span>
+              </div>
+              <div class="attr-bar">
+                <div 
+                  class="attr-bar-fill" 
+                  :style="{ 
+                    width: (attr.score / attributeResult.allAttributes[0].score * 100) + '%',
+                    background: `linear-gradient(90deg, ${attributeTypes.find(a => a.code === attr.code)?.color}, ${attributeTypes.find(a => a.code === attr.code)?.color}aa)`
+                  }"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-else-if="!hasAttributeResult" 
+             class="hud-panel p-4 md:p-6 relative"
+             style="transition: opacity 0.5s ease 0.6s">
+          <div class="hud-corner tl"></div>
+          <div class="hud-corner tr"></div>
+          <div class="hud-corner bl"></div>
+          <div class="hud-corner br"></div>
+          <div class="text-center py-4">
+            <p class="text-gray-400 mb-4">尚未完成属性值测试</p>
+            <button @click="goToAttributeTest" class="btn-secondary">
+              开始属性值测试
+            </button>
           </div>
         </div>
 
@@ -610,5 +684,55 @@ const rankBars: Record<string, string> = {
   50% {
     opacity: 1;
   }
+}
+
+.attribute-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 8px;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.attr-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border: 1px solid;
+}
+
+.attr-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.attr-name {
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.attr-score {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.attr-bar {
+  height: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.attr-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
 }
 </style>

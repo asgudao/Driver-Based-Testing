@@ -179,6 +179,17 @@ const availableTests: TestItem[] = [
     duration: '5-10分钟'
   },
   {
+    id: 'attribute-test',
+    name: '属性值测试',
+    description: '测试您的智慧、学识、耐力、专注度等核心属性值',
+    icon: '📊',
+    iconBg: 'linear-gradient(135deg, #10b981, #06b6d4)',
+    isAvailable: true,
+    route: '/attribute-test',
+    questions: 10,
+    duration: '5分钟'
+  },
+  {
     id: 'personality-test',
     name: '性格测试',
     description: '分析您的游戏风格与行为模式，获得个性化建议',
@@ -197,16 +208,6 @@ const availableTests: TestItem[] = [
     isAvailable: false,
     questions: 25,
     duration: '15分钟'
-  },
-  {
-    id: 'team-test',
-    name: '属性值测试',
-    description: '获取您的玩家等级、经验值、属性雷达图等核心数据',
-    icon: '📊',
-    iconBg: 'linear-gradient(135deg, #10b981, #06b6d4)',
-    isAvailable: false,
-    questions: 18,
-    duration: '8分钟'
   }
 ]
 

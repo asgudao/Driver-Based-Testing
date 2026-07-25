@@ -19,8 +19,16 @@ export interface DriverType {
   code: number;
   name: string;
   description: string;
-  detail: string;
+  detail?: string;
   color: string;
+}
+
+export interface AttributeType {
+  code: number;
+  name: string;
+  description: string;
+  color: string;
+  icon: string;
 }
 
 export interface Answer {
@@ -33,4 +41,10 @@ export interface TestResult {
   primaryDriver: number;
   secondaryDriver: number;
   allDrivers: { code: number; score: number; name: string }[];
+}
+
+export interface AttributeResult {
+  scores: Record<number, number>;
+  maxAttribute: number;
+  allAttributes: { code: number; score: number; name: string }[];
 }
