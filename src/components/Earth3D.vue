@@ -25,7 +25,9 @@ let earth: THREE.Mesh
 let clouds: THREE.Mesh
 let stars: THREE.Points
 let atmosphere: THREE.Mesh
+let atmosphereMaterial: THREE.ShaderMaterial
 let animationId: number
+let time = 0
 
 onMounted(() => {
   init()
@@ -221,34 +223,55 @@ function init() {
   scene.add(clouds)
 
   const atmosphereGeometry = new THREE.SphereGeometry(1.15, 64, 64)
-  const atmosphereMaterial = new THREE.ShaderMaterial({
-    vertexShader: `
-      varying vec3 vNormal;
-      varying vec3 vPosition;
-      void main() {
-        vNormal = normalize(normalMatrix * normal);
-        vPosition = position;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: `
-      varying vec3 vNormal;
-      varying vec3 vPosition;
-      void main() {
-        vec3 viewDirection = normalize(-vPosition);
-        float intensity = pow(0.65 - dot(vNormal, viewDirection), 3.0);
-        vec3 atmosphereColor = vec3(0.3, 0.6, 1.0);
-        gl_FragColor = vec4(atmosphereColor, 1.0) * intensity;
-      }
-    `,
-    blending: THREE.AdditiveBlending,
-    side: THREE.BackSide,
-    transparent: true,
-    depthWrite: false
-  })
+atmosphereMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+    uTime: { value: 0 }
+  },
+  vertexShader: `
+    varying vec3 vNormal;
+    varying vec3 vPosition;
+    void main() {
+      vNormal = normalize(normalMatrix * normal);
+      vPosition = position;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: `
+    varying vec3 vNormal;
+    varying vec3 vPosition;
+    uniform float uTime;
+    
+    vec3 getAtmosphereColor(float time) {
+      vec3 blue = vec3(0.3, 0.6, 1.0);
+      vec3 purple = vec3(0.5, 0.3, 0.9);
+      vec3 cyan = vec3(0.2, 0.8, 0.9);
+      vec3 teal = vec3(0.1, 0.6, 0.7);
+      
+      float phase1 = sin(time * 0.3) * 0.5 + 0.5;
+      float phase2 = sin(time * 0.3 + 2.0) * 0.5 + 0.5;
+      
+      vec3 color1 = mix(blue, purple, phase1);
+      vec3 color2 = mix(cyan, teal, phase2);
+      
+      return mix(color1, color2, sin(time * 0.2) * 0.5 + 0.5);
+    }
+    
+    void main() {
+      vec3 viewDirection = normalize(-vPosition);
+      float intensity = pow(0.65 - dot(vNormal, viewDirection), 3.0);
+      vec3 atmosphereColor = getAtmosphereColor(uTime);
+      float pulse = sin(uTime * 0.5) * 0.1 + 0.9;
+      gl_FragColor = vec4(atmosphereColor, 1.0) * intensity * pulse;
+    }
+  `,
+  blending: THREE.AdditiveBlending,
+  side: THREE.BackSide,
+  transparent: true,
+  depthWrite: false
+})
 
-  atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial)
-  scene.add(atmosphere)
+atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial)
+scene.add(atmosphere)
 
   const ambientLight = new THREE.AmbientLight(0x1a1a2e, 0.6)
   scene.add(ambientLight)
@@ -300,6 +323,11 @@ function onWindowResize() {
 
 function animate() {
   animationId = requestAnimationFrame(animate)
+  time += 0.016
+  
+  if (atmosphereMaterial) {
+    atmosphereMaterial.uniforms.uTime.value = time
+  }
   
   if (earth) {
     earth.rotation.y += 0.0015
