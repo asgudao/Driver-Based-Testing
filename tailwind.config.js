@@ -9,23 +9,30 @@ export default {
     },
     extend: {
       colors: {
-        'mystic': {
-          '900': '#0d0515',
-          '800': '#1a0a2e',
-          '700': '#16213e',
-          '600': '#0f3460',
+        // Single dominant accent — Signal Cyan
+        'signal': {
+          DEFAULT: '#34e3e6',
+          deep: '#0e8a99',
+          soft: '#1b6e7a',
         },
-        'gold': {
-          '400': '#f4d03f',
-          '500': '#d4a823',
-          '600': '#b8901a',
+        // Secondary only — Amber (副职业 / 告警)
+        'amber': {
+          DEFAULT: '#f6b53d',
+          deep: '#b9791f',
         },
-        'star': {
-          'light': '#fffacd',
-          'dark': '#c9a227',
-        }
+        // Cool blue-gray neutrals
+        'ink': {
+          DEFAULT: '#c9d6e2',
+          muted: '#8ba2b5',
+          dim: '#5f7589',
+          faint: '#3a4756',
+        },
       },
       fontFamily: {
+        'display': ['Oxanium', 'Rajdhani', 'system-ui', 'sans-serif'],
+        'hud': ['Rajdhani', 'Noto Sans SC', 'system-ui', 'sans-serif'],
+        'mono': ['"Share Tech Mono"', 'ui-monospace', 'monospace'],
+        'cn': ['"Noto Sans SC"', 'system-ui', 'sans-serif'],
         'serif': ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
         'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "地球online游玩指南.md",
+                "file": "职业选择.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "地球online游玩指南"
+              "title": "职业选择"
             }
           },
           {
@@ -142,13 +142,16 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {},
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
               "icon": "lucide-bookmark",
               "title": "书签"
             }
           },
           {
-            "id": "c2e0b34471f67341",
+            "id": "eac396bc99410635",
             "type": "leaf",
             "state": {
               "type": "notebook-navigator",
@@ -248,14 +251,23 @@
               "icon": "lucide-list",
               "title": "后续更改思路 的大纲"
             }
+          },
+          {
+            "id": "9fd730aa1064f5d4",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 373.5,
-    "collapsed": true
+    "width": 373.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -266,19 +278,21 @@
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "bases:新建数据库": false,
-      "obsidian-excalidraw-plugin:新建绘图文件": false,
       "obsidian42-brat:BRAT": false,
-      "notebook-navigator:笔记本导航器": false
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "notebook-navigator:笔记本导航器": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e1b68a23a9baecc2",
+  "active": "eac396bc99410635",
   "lastOpenFiles": [
-    "属性值测试问题.md",
+    "职业选择.md",
     "地球online游玩指南.md",
+    "地球online游玩指南",
+    "属性值测试问题.md",
     "职业选择问题.md",
     "问题.md",
     "属性值测试.md",
-    "职业选择.md",
     "个人测评网站.md",
     "copilot/copilot-custom-prompts/Make shorter.md",
     "copilot/copilot-custom-prompts/Clip Web Page.md",
